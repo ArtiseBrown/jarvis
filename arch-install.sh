@@ -16,7 +16,7 @@
 ### keyboard map
 echo "Setting the keyboard to the UK layout"
 loadkeys uk
-read -p "Press enter to continue"
+#read -p "Press enter to continue"
 echo ""
 
 ## Determin the drive name that Arch will be install on
@@ -31,7 +31,7 @@ echo "Creating the root partition"
 sgdisk -n 2:0:+20G -t 2:8300 -c 2:Arch /dev/sda
 echo "Creating the home partition"
 sgdisk -n 3:0:0 -t 3:8300 -c 3:Home /dev/sda
-read -p "Press enter to continue"
+#read -p "Press enter to continue"
 echo ""
 
 ## Format the drives
@@ -41,7 +41,7 @@ echo "Formating the root partition"
 mkfs.ext4 /dev/sda2
 echo "Formating the home partition"
 mkfs.ext4 /dev/sda3
-read -p "Press enter to continue"
+#read -p "Press enter to continue"
 echo ""
 
 ## Mount partitions
@@ -53,19 +53,19 @@ mount /dev/sda1 /mnt/boot
 echo "Creating the homer folere and mounting the home partition"
 mkdir /mnt/home
 mount /dev/sda3 /mnt/home
-read -p "Press enter to continue"
+#read -p "Press enter to continue"
 echo ""
 
 ## Install base system
 echo "Intalling the base system"
 pacstrap /mnt base base-devel intel-ucode fish git emacs sudo
-read -p "Press enter to continue"
+#read -p "Press enter to continue"
 echo ""
 
 ## Create the file system table
 echo "Creating the file system table"
 genfstab -U /mnt >> /mnt/etc/fstab
-read -p "Press enter to continue"
+#read -p "Press enter to continue"
 echo ""
 
 # Stuff to do inside the chroot environment
