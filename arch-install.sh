@@ -8,94 +8,140 @@
 # Installation
 ## Pre-installation tasks
 ### keyboard map
+echo "Setting the keyboard to the UK layout"
 loadkeys uk
+read -p "Press enter to continue"
+echo ""
 
 ## Determin the drive name that Arch will be install on
 ## lsblk
 
 ## Partition the drive that you will use
+echo "Partitioning the disk"
 sgdisk -Z /dev/sda
+echo "Creating the boot partition"
 sgdisk -n 1:0:+512M -t 1:ef00 -c 1:UEFI /dev/sda
+echo "Creating the root partition"
 sgdisk -n 2:0:+20G -t 2:8300 -c 2:Arch /dev/sda
+echo "Creating the home partition"
 sgdisk -n 3:0:0 -t 3:8300 -c 3:Home /dev/sda
+read -p "Press enter to continue"
+ehco ""
 
 ## Format the drives
+echo "Formating the boot partition"
 mkfs.fat -F32 /dev/sda1
+echo "Formating the root partition"
 mkfs.ext4 /dev/sda2
+echo "Formating the home partition"
 mkfs.ext4 /dev/sda3
+read -p "Press enter to continue"
+ehco ""
 
 ## Mount partitions
+echo "Mounting the root partition"
 mount /dev/sda2 /mnt
+echo "Creating the boot folder and mounting the boot partition"
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
+echo "Creating the homer folere and mounting the home partition"
 mkdir /mnt/home
 mount /dev/sda3 /mnt/home
+read -p "Press enter to continue"
+ehco ""
 
 ## Install base system
+echo "Intalling the base system"
 pacstrap /mnt base base-devel intel-ucode fish git emacs sudo
+read -p "Press enter to continue"
+ehco ""
 
 ## Create the file system table
+echo "Creating the file system table"
 genfstab -U /mnt >> /mnt/etc/fstab
+read -p "Press enter to continue"
+ehco ""
 
 ## Chroot into the new system
+echo "Chrooting into the new system"
 arch-chroot /mnt
+read -p "Press enter to continue"
+ehco ""
 
 ## Set the timezone and hardware clock
+echo "Setting the time zone and UTC"
 rm /etc/localtime
 ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
-hwclock --systohc
+hwclock --systohc --utc
+read -p "Press enter to continue"
+ehco ""
 
 ## Set the localizations
+echo "Setting the localisations to UK"
 cp /etc/locale.gen /etc/locale.gen.bak
 echo "en_GB.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "KEYMAP=uk" > /etc/vconsole.conf
+read -p "Press enter to continue"
+ehco ""
 
 ## Set the computer's hostname and network access
+echo "Setting the host name details"
 echo "Hulk" > /etc/hostname
 echo "127.0.0.1	localhost.localdomain	localhost" > /etc/hosts
 echo "1::1		localhost.localdomain	localhost" >> /etc/hosts
 echo "127.0.1.1	hulk.localdomain	hulk" >> /etc/hosts
 systemctl enable dhcpcd.service
+read -p "Press enter to continue"
+ehco ""
 
 ## Setup the boot loader and conf files
+echo "Configuring the bootloaded"
 bootctl --path=/boot install
 echo "default arch" > /boot/loader/loader.conf
 echo "timer 0" >> /boot/loader/loader.conf
 echo "editor 0" >> /boot/loader/loader.conf
-    
+read -p "Press enter to continue"
+ehco ""
+
 ## determine the PARTUUID of /dev/sda1
+echo "Creating the arch.conf bootloaded entry file"
 DISKID=$(ls -l /dev/disk/by-partuuid | grep sda2 | awk '{print $9;}'
 echo "title Arch Linux" > /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
 echo "initrd  /intel-ucode.img" >> /boot/loader/entries/arch.conf
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 echo "options root=PARTUUID=$DISKID rw quiet" >> /boot/loader/entries/arch.conf
+read -p "Press enter to continue"
+ehco ""
 
 ## Add password for root, add user and update sudoers
+ehco "Setting the root password"
 passwd
-uncomment %wheel ALL=(ALL) ALL in the /etc/sudoers file
-useradd -m -G wheel,storage,power -s /usr/bin/fish artise
-passwd artise
+#read -p "Press enter to continue"
+ehco "Basic installation complete"
+#uncomment %wheel ALL=(ALL) ALL in the /etc/sudoers file
+#useradd -m -G wheel,storage,power -s /usr/bin/fish artise
+#passwd artise
 
 ## Get access to the AUR
-su artise
-cd /tmp
-git clone https://aur.archlinux.org/package-query.git
-cd /tmp/package-query
-makepkg -si
-cd /tmp
-git clone https://aur.archlinux.org/yaourt.git 
-cd /tmp/yaourt
-makepkg -si
-yourt -Syua
+#su artise
+#cd /tmp
+#git clone https://aur.archlinux.org/package-query.git
+#cd /tmp/package-query
+#makepkg -si
+#cd /tmp
+#git clone https://aur.archlinux.org/yaourt.git 
+#cd /tmp/yaourt
+#makepkg -si
+#yourt -Syua
 
 ## Add plymouth to the initial boot screen
 
 ## Setup the login manager
-yaourt -S lightdm-webkit2-greeter --noconfirm
-sudo systemctl enable lightdm.service
+#yaourt -S lightdm-webkit2-greeter --noconfirm
+#sudo systemctl enable lightdm.service
 
 
 
@@ -107,36 +153,36 @@ sudo systemctl enable lightdm.service
 
 # Software to install
 ## Main system
-sudo yaourt -S gksu teminator dropbox gparted elinks bluez bluez-utils python 
-sudo yaourt -S gcvs xdg-user-dirs network-manager network-manager-applet ntp python-ndg-httpsclient
+#sudo yaourt -S gksu teminator dropbox gparted elinks bluez bluez-utils python 
+#sudo yaourt -S gcvs xdg-user-dirs network-manager network-manager-applet ntp python-ndg-httpsclient
 
 ## Windows system
-sudo yaourt -S xorg-server xorg-server-utils lightdm-gtk-greeter-settings accountsservice
-sudo yaourt -S i3-wm i3blocks terminator i3status dmenu py3status py3status-modules
-sudo yaourt -S compton feh rofi scrot python-requests cower dropbox-cli yad
+#sudo yaourt -S xorg-server xorg-server-utils lightdm-gtk-greeter-settings accountsservice
+#sudo yaourt -S i3-wm i3blocks terminator i3status dmenu py3status py3status-modules
+#sudo yaourt -S compton feh rofi scrot python-requests cower dropbox-cli yad
  
 ## Sound system
-sudo yaourt -S alsa-firmware alsa-utils alsa-plugins pulseaudio-alsa pulseaudio pavucontrol pulseaudio-bluetooth
-sudo yaourt -S mplayer smplayer gstreamer pa-applet pulseaudio-ctl playerctl
+#sudo yaourt -S alsa-firmware alsa-utils alsa-plugins pulseaudio-alsa pulseaudio pavucontrol pulseaudio-bluetooth
+#sudo yaourt -S mplayer smplayer gstreamer pa-applet pulseaudio-ctl playerctl
 
 ## General software
-sudo yaourt -S chromium pepper-flash chromium-widevine thunar thunar-archive-plugin file-roller tumbler geany texlive-core texmaker 
+#sudo yaourt -S chromium pepper-flash chromium-widevine thunar thunar-archive-plugin file-roller tumbler geany texlive-core texmaker 
 
 ## Apperance
-sudo yaourt -S arc-gtk-theme arc-icon-theme lxapperance ttf-dejavu ttf-font-awesome 
+#sudo yaourt -S arc-gtk-theme arc-icon-theme lxapperance ttf-dejavu ttf-font-awesome 
 
 ## Services to enable and start
-sudo systemctl enable NetworkManager.service
-sudo systemctl enable ntpd.service
+##sudo systemctl enable NetworkManager.service
+#sudo systemctl enable ntpd.service
 #sudo systemctl enable lightdm.service
-sudo systemctl enable bluetooth.service
+#sudo systemctl enable bluetooth.service
 
 ## Virtual Box
-sudo yaourt -S virtualbox virtualbox-host-modules-arch
-systemd-modules-load.service
+#sudo yaourt -S virtualbox virtualbox-host-modules-arch
+#systemd-modules-load.service
    
 # Umnute the sound system
-amixer sset Master unmute 
+#amixer sset Master unmute 
 #alsamixer # to check on the unmuted channels, if needed
 
 
