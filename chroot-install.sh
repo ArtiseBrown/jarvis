@@ -79,7 +79,8 @@ pacman -S pa-applet pulseaudio-ctl playerctl --needed --noconfirm
 # Software to install
 ## Main system
 pacman -S gksu terminator gparted elinks bluez bluez-utils python --needed --noconfirm
-pacman -S gcvs xdg-user-dirs network-manager network-manager-applet ntp python-ndg-httpsclient --needed --noconfirm
+pacman -S gcvs xdg-user-dirs --needed --noconfirm
+pacman -S network-manager network-manager-applet python-ndg-httpsclient --needed --noconfirm
 
 ## Web browswer software
 pacman -S chromium pepper-flash chromium-widevine --needed --noconfirm
@@ -99,6 +100,9 @@ pacman -S ttf-dejavu ttf-font-awesome --needed --noconfirm
 
 ## AUR software
 #yaourt -S dropbox dropbox-cli --needed --noconfirm
+
+## Network time service
+pacman -S ntp --needed --noconfirm
 
 ## Services to enable and start
 echo "Enabling services"
