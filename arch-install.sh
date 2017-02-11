@@ -69,7 +69,7 @@ read -p "Press enter to continue"
 echo ""
 
 # Stuff to do inside the chroot environment
-cat <<EOF > /mnt/root/part2.sh
+cat <<EOF > /mnt/part2.sh
 #!/bin/bash
 ## Set the timezone and hardware clock
 echo "Setting the time zone and UTC"
@@ -132,7 +132,7 @@ EOF
 
 ## Chroot into the new system abd run the scripts above
 echo "Chrooting into the new system"
-arch-chroot /mnt /root/part2.sh
+arch-chroot /mnt /part2.sh
 read -p "Press enter to continue"
 echo ""
 
