@@ -26,7 +26,7 @@ sgdisk -n 2:0:+20G -t 2:8300 -c 2:Arch /dev/sda
 echo "Creating the home partition"
 sgdisk -n 3:0:0 -t 3:8300 -c 3:Home /dev/sda
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## Format the drives
 echo "Formating the boot partition"
@@ -36,7 +36,7 @@ mkfs.ext4 /dev/sda2
 echo "Formating the home partition"
 mkfs.ext4 /dev/sda3
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## Mount partitions
 echo "Mounting the root partition"
@@ -48,25 +48,25 @@ echo "Creating the homer folere and mounting the home partition"
 mkdir /mnt/home
 mount /dev/sda3 /mnt/home
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## Install base system
 echo "Intalling the base system"
 pacstrap /mnt base base-devel intel-ucode fish git emacs sudo
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## Create the file system table
 echo "Creating the file system table"
 genfstab -U /mnt >> /mnt/etc/fstab
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## Chroot into the new system
 echo "Chrooting into the new system"
 arch-chroot /mnt
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## Set the timezone and hardware clock
 echo "Setting the time zone and UTC"
@@ -74,7 +74,7 @@ rm /etc/localtime
 ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc --utc
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## Set the localizations
 echo "Setting the localisations to UK"
@@ -84,7 +84,7 @@ locale-gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "KEYMAP=uk" > /etc/vconsole.conf
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## Set the computer's hostname and network access
 echo "Setting the host name details"
@@ -94,7 +94,7 @@ echo "1::1		localhost.localdomain	localhost" >> /etc/hosts
 echo "127.0.1.1	hulk.localdomain	hulk" >> /etc/hosts
 systemctl enable dhcpcd.service
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## Setup the boot loader and conf files
 echo "Configuring the bootloaded"
@@ -103,7 +103,7 @@ echo "default arch" > /boot/loader/loader.conf
 echo "timer 0" >> /boot/loader/loader.conf
 echo "editor 0" >> /boot/loader/loader.conf
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## determine the PARTUUID of /dev/sda1
 echo "Creating the arch.conf bootloaded entry file"
@@ -114,13 +114,13 @@ echo "initrd  /intel-ucode.img" >> /boot/loader/entries/arch.conf
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 echo "options root=PARTUUID=$DISKID rw quiet" >> /boot/loader/entries/arch.conf
 read -p "Press enter to continue"
-ehco ""
+echo ""
 
 ## Add password for root, add user and update sudoers
-ehco "Setting the root password"
+echo "Setting the root password"
 passwd
 #read -p "Press enter to continue"
-ehco "Basic installation complete"
+echo "Basic installation complete"
 #uncomment %wheel ALL=(ALL) ALL in the /etc/sudoers file
 #useradd -m -G wheel,storage,power -s /usr/bin/fish artise
 #passwd artise
