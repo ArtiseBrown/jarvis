@@ -83,14 +83,14 @@ pacman -S gcvs xdg-user-dirs --needed --noconfirm
 pacman -S network-manager network-manager-applet python-ndg-httpsclient --needed --noconfirm
 
 ## Web browswer software
-pacman -S chromium pepper-flash chromium-widevine --needed --noconfirm
-pacman -S thunar thunar-archive-plugin file-roller tumbler --needed --noconfirm
+#pacman -S chromium pepper-flash chromium-widevine --needed --noconfirm
+#pacman -S thunar thunar-archive-plugin file-roller tumbler --needed --noconfirm
 
 ## Video
-pacman -S mplayer smplayer gstreamer --needed --noconfirm
+#pacman -S mplayer smplayer gstreamer --needed --noconfirm
 
 ## General software
-pacman -S  geany texlive-core texmaker --needed --noconfirm
+#pacman -S  geany texlive-core texmaker --needed --noconfirm
 
 ## Apperance
 ### Themes
