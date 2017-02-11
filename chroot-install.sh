@@ -55,6 +55,15 @@ pacman -S xorg-server xorg-server-utils lightdm-gtk-greeter-settings accountsser
 ehco ""
 systemctl enable lightdm.service
 
+## Video driver
+if lspci | grep VGA | grep VirtualBox > /dev/null; then
+    pacman -S virtualbox-guest-modules-arch virtualbox-guest-utils
+fi
+if lspci | grep VGA | grep Intel > /dev/null; then
+    pacman -S xf86-video-intel
+fi
+
+
 ## XFCE4
 ehco "Installing XFCE4"
 pacman -S xfce4 xfce4-goodies
