@@ -103,39 +103,7 @@ echo ""
 # SigLevel = Never
 # Server = http://repo.archlinux.fr/$arch
 
-# Software to install
-## Main system
-#sudo yaourt -S gksu teminator dropbox gparted elinks bluez bluez-utils python 
-#sudo yaourt -S gcvs xdg-user-dirs network-manager network-manager-applet ntp python-ndg-httpsclient
 
-## Windows system
-#sudo yaourt -S xorg-server xorg-server-utils lightdm-gtk-greeter-settings accountsservice
-#sudo yaourt -S i3-wm i3blocks terminator i3status dmenu py3status py3status-modules
-#sudo yaourt -S compton feh rofi scrot python-requests cower dropbox-cli yad
- 
-## Sound system
-#sudo yaourt -S alsa-firmware alsa-utils alsa-plugins pulseaudio-alsa pulseaudio pavucontrol pulseaudio-bluetooth
-#sudo yaourt -S mplayer smplayer gstreamer pa-applet pulseaudio-ctl playerctl
-
-## General software
-#sudo yaourt -S chromium pepper-flash chromium-widevine thunar thunar-archive-plugin file-roller tumbler geany texlive-core texmaker 
-
-## Apperance
-#sudo yaourt -S arc-gtk-theme arc-icon-theme lxapperance ttf-dejavu ttf-font-awesome 
-
-## Services to enable and start
-##sudo systemctl enable NetworkManager.service
-#sudo systemctl enable ntpd.service
-#sudo systemctl enable lightdm.service
-#sudo systemctl enable bluetooth.service
-
-## Virtual Box
-#sudo yaourt -S virtualbox virtualbox-host-modules-arch
-#systemd-modules-load.service
-   
-# Umnute the sound system
-#amixer sset Master unmute 
-#alsamixer # to check on the unmuted channels, if needed
 
 
 # Software configurations
