@@ -51,25 +51,75 @@ echo ""
 
 ## Windows system
 echo "Installing x windows"
-pacman -S xorg-server xorg-server-utils lightdm-gtk-greeter-settings accountsservice
+pacman -S xorg-server xorg-server-utils lightdm-gtk-greeter-settings accountsservice --needed --noconfirm
 ehco ""
-systemctl enable lightdm.service
 
 ## Video driver
 if lspci | grep VGA | grep VirtualBox > /dev/null; then
-    pacman -S virtualbox-guest-modules-arch virtualbox-guest-utils
+    pacman -S virtualbox-guest-modules-arch virtualbox-guest-utils --needed --noconfirm
 fi
 if lspci | grep VGA | grep Intel > /dev/null; then
-    pacman -S xf86-video-intel
+    pacman -S xf86-video-intel --needed --noconfirm
 fi
-
 
 ## XFCE4
 ehco "Installing XFCE4"
-pacman -S xfce4 xfce4-goodies
+pacman -S xfce4 xfce4-goodies --needed --noconfirm
 echo ""
-#sudo yaourt -S i3-wm i3blocks terminator i3status dmenu py3status py3status-modules
-#sudo yaourt -S compton feh rofi scrot python-requests cower dropbox-cli yad
+
+## i3wm
+#pacman -S i3-wm i3block i3status dmenu py3status py3status-modules --needed --noconfirm
+#pacman -S compton feh rofi scrot python-requests cower yad --needed --noconfirm
+ 
+## Sound system
+pacman -S alsa-firmware alsa-utils alsa-plugins --needed --noconfirm
+pacman -S pulseaudio-alsa pulseaudio pavucontrol pulseaudio-bluetooth --needed --noconfirm
+pacman -S pa-applet pulseaudio-ctl playerctl --needed --noconfirm
+
+# Software to install
+## Main system
+pacman -S gksu terminator gparted elinks bluez bluez-utils python --needed --noconfirm
+pacman -S gcvs xdg-user-dirs network-manager network-manager-applet ntp python-ndg-httpsclient --needed --noconfirm
+
+## Web browswer software
+pacman -S chromium pepper-flash chromium-widevine --needed --noconfirm
+pacman -S thunar thunar-archive-plugin file-roller tumbler --needed --noconfirm
+
+## Video
+pacman -S mplayer smplayer gstreamer --needed --noconfirm
+
+## General software
+pacman -S  geany texlive-core texmaker --needed --noconfirm
+
+## Apperance
+### Themes
+pacman -S arc-gtk-theme arc-icon-theme lxapperance --needed --noconfirm
+### Fonts
+pacman -S ttf-dejavu ttf-font-awesome --needed --noconfirm
+
+## AUR software
+#yaourt -S dropbox dropbox-cli --needed --noconfirm
+
+## Services to enable and start
+echo "Enabling services"
+systemctl enable NetworkManager.service
+systemctl enable ntpd.service
+systemctl enable lightdm.service
+systemctl enable bluetooth.service
+
+## Virtual Box
+if lspci | grep VGA | grep Intel > /dev/null; then
+    echo "Installing virtualbox"
+    pacman -S virtualbox virtualbox-host-modules-arch --needed --noconfirm
+    systemd-modules-load.service
+    echo ""
+fi
+   
+# Umnute the sound system
+echo "Unmuting the sound system"
+amixer sset Master unmute 
+#alsamixer # to check on the unmuted channels, if needed
+echo ""
 
 ## Add password for root, add user and update sudoers
 echo "Setting the root password"
