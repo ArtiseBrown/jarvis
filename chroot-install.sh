@@ -49,6 +49,19 @@ echo "options root=PARTUUID=$DISKID rw quiet" >> /boot/loader/entries/arch.conf
 #read -p "Press enter to continue"
 echo ""
 
+## Windows system
+echo "Installing x windows"
+pacman -S xorg-server xorg-server-utils lightdm-gtk-greeter-settings accountsservice
+ehco ""
+systemctl enable lightdm.service
+
+## XFCE4
+ehco "Installing XFCE4"
+pacman -S xfce4 xfce4-goodies
+echo ""
+#sudo yaourt -S i3-wm i3blocks terminator i3status dmenu py3status py3status-modules
+#sudo yaourt -S compton feh rofi scrot python-requests cower dropbox-cli yad
+
 ## Add password for root, add user and update sudoers
 echo "Setting the root password"
 passwd
@@ -59,11 +72,11 @@ echo "Uncommenting %wheel in sudoers file"
 sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 echo ""
 
-echo "Adding a non-root user"
+echo "Adding Artise as a non-root user"
 useradd -m -G wheel,storage,power -s /usr/bin/fish artise
 echo ""
 
-echo "Adding password for non-root user"
+echo "Adding password for Artise"
 passwd artise
 echo ""
 
