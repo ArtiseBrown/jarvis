@@ -68,11 +68,8 @@ genfstab -U /mnt >> /mnt/etc/fstab
 read -p "Press enter to continue"
 echo ""
 
-## Chroot into the new system
-echo "Chrooting into the new system"
-arch-chroot /mnt
-read -p "Press enter to continue"
-echo ""
+# Stuff to do inside the chroot environment
+cat <<EOF > /mnt/root/part2.sh
 
 ## Set the timezone and hardware clock
 echo "Setting the time zone and UTC"
@@ -130,6 +127,14 @@ echo "Basic installation complete"
 #uncomment %wheel ALL=(ALL) ALL in the /etc/sudoers file
 #useradd -m -G wheel,storage,power -s /usr/bin/fish artise
 #passwd artise
+exit # to leave the chroot
+EOF
+
+## Chroot into the new system abd run the scripts above
+echo "Chrooting into the new system"
+arch-chroot /mnt /root/part2.sh
+read -p "Press enter to continue"
+echo ""
 
 ## Get access to the AUR
 #su artise
