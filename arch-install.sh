@@ -6,6 +6,12 @@
 ## Reboot system off the USB 
 
 # Installation
+# run the following commands from the terminal
+# mount -o remount,size=2G /run/archiso/cowspace
+# pacman -Sy git
+# git clone https://github.com/artisebrown/arch-install.git
+# then launch the script
+
 ## Pre-installation tasks
 ### keyboard map
 echo "Setting the keyboard to the UK layout"
