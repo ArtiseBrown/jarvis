@@ -82,7 +82,7 @@ pacman -S pa-applet pulseaudio-ctl playerctl --needed --noconfirm
 ## Main system
 pacman -S gksu terminator gparted elinks bluez bluez-utils python --needed --noconfirm
 pacman -S gcvs xdg-user-dirs --needed --noconfirm
-pacman -S network-manager network-manager-applet python-ndg-httpsclient --needed --noconfirm
+pacman -S network-manager-applet python-ndg-httpsclient --needed --noconfirm
 
 ## Web browswer software
 #pacman -S chromium pepper-flash chromium-widevine --needed --noconfirm
