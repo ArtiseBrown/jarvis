@@ -25,7 +25,9 @@ echo "Hulk" > /etc/hostname
 echo "127.0.0.1	localhost.localdomain	localhost" > /etc/hosts
 echo "1::1		localhost.localdomain	localhost" >> /etc/hosts
 echo "127.0.1.1	hulk.localdomain	hulk" >> /etc/hosts
-systemctl enable dhcpcd.service
+#systemctl enable dhcpcd.service
+pacman -S networkmanager
+systemctl enable NetworkManager
 #read -p "Press enter to continue"
 echo ""
 
