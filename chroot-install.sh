@@ -57,7 +57,7 @@ pacman -S fish git emacs sudo terminator xdg-user-dirs --needed --noconfirm
 ## Windows system
 echo "Installing x windows"
 #pacman -S xorg-server xorg-server-utils lightdm-gtk-greeter-settings accountsservice --needed --noconfirm
-ehco ""
+echo ""
 
 ## Video driver
 #if lspci | grep VGA | grep VirtualBox > /dev/null; then
@@ -68,7 +68,7 @@ ehco ""
 #fi
 
 ## XFCE4
-ehco "Installing XFCE4"
+echo "Installing XFCE4"
 #pacman -S xfce4 xfce4-goodies --needed --noconfirm
 echo ""
 
