@@ -69,9 +69,11 @@ genfstab -U /mnt >> /mnt/etc/fstab
 echo ""
 
 ## Chroot into the new system abd run the chroot-install script
+chmod + ./*.sh
 echo "Copying the chroot-install.sh to the root folder"
 cp ./chroot-install.sh /mnt/chroot-install.sh
-chmod +x /mnt/chroot-install.sh
+echo "Copying the user-install.sh to the root folder"
+cp ./user-install.sh /mnt/user-install.sh
 echo "Chrooting into the new system"
 arch-chroot /mnt /chroot-install.sh
 read -p "Press enter to continue"
