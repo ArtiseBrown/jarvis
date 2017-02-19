@@ -143,13 +143,14 @@ echo ""
 ## Get access to the AUR
 #su artise
 # su --login artise -c "Your command right here"
-su artise -c "cd /tmp"
+su artise -c "mkdir /home/artise/tmp"
+su artise -c "cd /home/artise/tmp"
 su artise -c "git clone https://aur.archlinux.org/package-query.git"
-su artise -c "cd /tmp/package-query"
+su artise -c "cd /home/artise/tmp/package-query"
 su artise -c "makepkg -si"
-su artise -c "cd /tmp"
+su artise -c "cd /home/artise/tmp"
 su artise -c "git clone https://aur.archlinux.org/yaourt.git"
-su artise -c "cd /tmp/yaourt"
+su artise -c "cd /home/artise/tmp/yaourt"
 su artise -c "makepkg -si"
 su artise -c "yourt -Syua"
 
