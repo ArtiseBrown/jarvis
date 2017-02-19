@@ -155,7 +155,7 @@ sudo su - artise -c "echo "/user-install.sh" > /home/artise/.config/fish/config.
 
 ## Add password for root 
 echo "Setting the root password"
-passed
+passwd
 echo ""
 
 ## Add password for Artise 
