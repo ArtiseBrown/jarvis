@@ -58,7 +58,7 @@ echo ""
 
 ## Install base system
 echo "Intalling the base system"
-pacstrap /mnt base base-devel intel-ucode fish git emacs sudo
+pacstrap /mnt base base-devel intel-ucode 
 #read -p "Press enter to continue"
 echo ""
 
