@@ -143,7 +143,7 @@ echo ""
 ## Get access to the AUR
 #sudo su - artise -c "mkdir -p /home/artise/tmp/{package-query,yaourt}"
 sudo su - artise -c "mkdir -p /home/artise/.config/fish"
-sudo su - artise -c "echo "/user-install.sh" > /home/artise/.config/fish/config.fish"
+sudo su - artise -c "echo '/user-install.sh' > /home/artise/.config/fish/config.fish"
 #sudo su - artise -c "git clone https://aur.archlinux.org/package-query.git"
 #sudo su - artise -c "cd /home/artise/package-query"
 #sudo su - artise -c "makepkg -si"
