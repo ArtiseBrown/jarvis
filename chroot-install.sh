@@ -80,6 +80,7 @@ pacman -S pa-applet pulseaudio-ctl playerctl --needed --noconfirm
 
 # Software to install
 ## Main system
+pacman -S fish git emacs sudo --needed --noconfirm
 pacman -S gksu terminator gparted elinks bluez bluez-utils python --needed --noconfirm
 pacman -S gcvs xdg-user-dirs --needed --noconfirm
 pacman -S network-manager-applet python-ndg-httpsclient --needed --noconfirm
