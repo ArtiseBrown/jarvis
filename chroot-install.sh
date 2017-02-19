@@ -141,22 +141,21 @@ useradd -m -G wheel,storage,power -s /usr/bin/fish artise
 echo ""
 
 ## Get access to the AUR
-#su artise
-# su --login artise -c "Your command right here"
-sudo su - artise -c "mkdir -p /home/artise/tmp/{package-query,yaourt}"
-#sudo su - artise -c "cd /home/artise/tmp"
-sudo su - artise -c "cd /home/artise"
-sudo su - artise -c "git clone https://aur.archlinux.org/package-query.git"
-sudo su - artise -c "cd /home/artise/package-query"
-sudo su - artise -c "makepkg -si"
-sudo su - artise -c "cd /home/artise"
-sudo su - artise -c "git clone https://aur.archlinux.org/yaourt.git"
-sudo su - artise -c "cd /home/artise/yaourt"
-sudo su - artise -c "makepkg -si"
-sudo su - artise -c "yaourt -Syua"
+#sudo su - artise -c "mkdir -p /home/artise/tmp/{package-query,yaourt}"
+sudo su - artise -c "mkdir -p /home/artise/.config/fish"
+sudo su - artise -c "echo "/user-install.sh" > /home/artise/.config/fish/config.fish"
+#sudo su - artise -c "git clone https://aur.archlinux.org/package-query.git"
+#sudo su - artise -c "cd /home/artise/package-query"
+#sudo su - artise -c "makepkg -si"
+#sudo su - artise -c "cd /home/artise"
+#sudo su - artise -c "git clone https://aur.archlinux.org/yaourt.git"
+#sudo su - artise -c "cd /home/artise/yaourt"
+#sudo su - artise -c "makepkg -si"
+#sudo su - artise -c "yaourt -Syua"
 
 ## Add password for root 
 echo "Setting the root password"
+passed
 echo ""
 
 ## Add password for Artise 
@@ -166,4 +165,4 @@ echo ""
 
 echo "Basic installation complete"
 
-exit # to leave the chroot
+#exit # to leave the chroot
