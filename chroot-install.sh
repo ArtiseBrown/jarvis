@@ -127,20 +127,34 @@ amixer sset Master unmute
 #alsamixer # to check on the unmuted channels, if needed
 echo ""
 
-## Add password for root, add user and update sudoers
-echo "Setting the root password"
-passwd
-echo ""
-
-#uncomment # %wheel ALL=(ALL) ALL in the /etc/sudoers file
+# uncomment # %wheel ALL=(ALL) ALL in the /etc/sudoers file
 echo "Uncommenting %wheel in sudoers file"
 sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 echo ""
 
+# add user
 echo "Adding Artise as a non-root user"
 useradd -m -G wheel,storage,power -s /usr/bin/fish artise
 echo ""
 
+## Get access to the AUR
+su artise
+cd /tmp
+git clone https://aur.archlinux.org/package-query.git
+cd /tmp/package-query
+makepkg -si
+cd /tmp
+git clone https://aur.archlinux.org/yaourt.git 
+cd /tmp/yaourt
+makepkg -si
+yourt -Syua
+
+## Add password for root 
+echo "Setting the root password"
+passwd
+echo ""
+
+## Add password for Artise 
 echo "Adding password for Artise"
 passwd artise
 echo ""
