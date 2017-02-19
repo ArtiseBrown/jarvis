@@ -142,19 +142,19 @@ echo ""
 
 ## Get access to the AUR
 #su artise
-sudo - artise -c cd /tmp
-sudo - artise -c git clone https://aur.archlinux.org/package-query.git
-sudo - artise -c cd /tmp/package-query
-sudo - artise -c makepkg -si
-sudo - artise -c cd /tmp
-sudo - artise -c git clone https://aur.archlinux.org/yaourt.git 
-sudo - artise -c cd /tmp/yaourt
-sudo - artise -c makepkg -si
-sudo - artise -c yourt -Syua
+# su -c "Your command right here" -s /bin/sh artise
+su -c cd /tmp -s /bin/sh artise
+su -c git clone https://aur.archlinux.org/package-query.git -s /bin/sh artise
+su -c cd /tmp/package-query -s /bin/sh artise
+su -c makepkg -si -s /bin/sh artise
+su -c cd /tmp -s /bin/sh artise
+su -c git clone https://aur.archlinux.org/yaourt.git -s /bin/sh artise
+su -c cd /tmp/yaourt -s /bin/sh artise
+su -c makepkg -si -s /bin/sh artise
+su -c yourt -Syua -s /bin/sh artise
 
 ## Add password for root 
 echo "Setting the root password"
-passwd
 echo ""
 
 ## Add password for Artise 
