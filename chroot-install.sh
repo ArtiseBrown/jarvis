@@ -106,6 +106,9 @@ echo ""
 ## AUR software
 #yaourt -S dropbox dropbox-cli --needed --noconfirm
 
+## YouTube downloading
+#pacman -S youtube-dl ffmpeg wmctrl xclip xdotool --needed --noconfirm
+
 ## Network time service
 #pacman -S ntp --needed --noconfirm
 
