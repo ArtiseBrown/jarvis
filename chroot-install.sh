@@ -147,14 +147,10 @@ echo ""
 ## Add a user
 echo "Add system user"
 read -p 'Username: ' usernamevar
-passwd $usernamevar
 echo ""
-
-# add user
-echo "Adding $usernamevar as a system user"
 useradd -m -G wheel,storage,power -s /usr/bin/fish $usernamevar
 echo ""
-
+passwd $usernamevar
 
 ## Get access to the AUR
 #sudo su - $usernamevar -c "mkdir -p /home/$usernamevar/tmp/{package-query,yaourt}"
