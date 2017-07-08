@@ -13,7 +13,10 @@
 # then launch the script
 
 ## Pre-installation tasks
-### keyboard map
+### Set the system clock
+timedatectl set-ntp true
+
+### Set the keyboard map
 echo "Setting the keyboard to the UK layout"
 loadkeys uk
 #read -p "Press enter to continue"
@@ -34,7 +37,7 @@ sgdisk -n 3:0:0 -t 3:8300 -c 3:Home /dev/sda
 #read -p "Press enter to continue"
 echo ""
 
-## Format the drives
+## Format the partitions
 echo "Formating the boot partition"
 mkfs.fat -F32 /dev/sda1
 echo "Formating the root partition"
