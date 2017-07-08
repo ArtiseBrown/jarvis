@@ -60,7 +60,7 @@ echo "Creating the arch.conf bootloaded entry file"
 DISKID=$(ls -l /dev/disk/by-partuuid | grep sda2 | awk '{print $9;}')
 echo "title Arch Linux" > /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
-echo "initrd  /intel-ucode.img" >> /boot/loader/entries/arch.conf
+echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 echo "options root=PARTUUID=$DISKID rw quiet" >> /boot/loader/entries/arch.conf
 #read -p "Press enter to continue"
