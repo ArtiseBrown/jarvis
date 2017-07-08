@@ -10,12 +10,14 @@ hwclock --systohc --utc
 echo ""
 
 ## Set the localizations
-echo "Setting the localisations to UK"
+echo "Setting the localisations to the UK"
 cp /etc/locale.gen /etc/locale.gen.bak
 echo "en_GB.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "KEYMAP=uk" > /etc/vconsole.conf
+rm /etc/locale.gen
+mv /etc/locale.gen.bak /etc/locale.gen
 #read -p "Press enter to continue"
 echo ""
 
@@ -40,6 +42,18 @@ echo "timer 0" >> /boot/loader/loader.conf
 echo "editor 0" >> /boot/loader/loader.conf
 #read -p "Press enter to continue"
 echo ""
+
+## Add hooks to update systemd-boot
+mkdir /etc/pacman.d/hooks
+echo "[Trigger]" > /etc/pacman.d/hooks/systemd-boot.hook
+echo "Type = Package" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "Operation = Upgrade" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "Target = systemd" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "[Action]" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "Description = Upgrading systemd-boot..." >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "When = PostTransaction" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "Exec = /usr/bin/bootctl update" >> /etc/pacman.d/hooks/systemd-boot.hook
 
 ## determine the PARTUUID of /dev/sda1
 echo "Creating the arch.conf bootloaded entry file"
