@@ -21,10 +21,11 @@ echo ""
 
 ## Set the computer's hostname and network access
 echo "Setting the host name details"
-echo "Hulk" > /etc/hostname
+read -p "Set a hostname: " hostnamevar
+echo $hostnamevar > /etc/hostname
 echo "127.0.0.1	localhost.localdomain	localhost" > /etc/hosts
 echo "1::1		localhost.localdomain	localhost" >> /etc/hosts
-echo "127.0.1.1	hulk.localdomain	hulk" >> /etc/hosts
+echo "127.0.1.1	$hostnamevar.localdomain	$hostnamevar" >> /etc/hosts
 #systemctl enable dhcpcd.service
 pacman -S networkmanager --needed --noconfirm
 systemctl enable NetworkManager
@@ -138,33 +139,35 @@ echo "Uncommenting %wheel in sudoers file"
 sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 echo ""
 
-# add user
-echo "Adding Artise as a non-root user"
-useradd -m -G wheel,storage,power -s /usr/bin/fish artise
-echo ""
-
-## Get access to the AUR
-#sudo su - artise -c "mkdir -p /home/artise/tmp/{package-query,yaourt}"
-sudo su - artise -c "mkdir -p /home/artise/.config/fish"
-sudo su - artise -c "echo '/user-install.sh' > /home/artise/.config/fish/config.fish"
-#sudo su - artise -c "git clone https://aur.archlinux.org/package-query.git"
-#sudo su - artise -c "cd /home/artise/package-query"
-#sudo su - artise -c "makepkg -si"
-#sudo su - artise -c "cd /home/artise"
-#sudo su - artise -c "git clone https://aur.archlinux.org/yaourt.git"
-#sudo su - artise -c "cd /home/artise/yaourt"
-#sudo su - artise -c "makepkg -si"
-#sudo su - artise -c "yaourt -Syua"
-
 ## Add password for root 
-echo "Setting the root password"
+echo "Setting the root password:"
 passwd
 echo ""
 
-## Add password for Artise 
-echo "Adding password for Artise"
-passwd artise
+## Add a user
+echo "Add system user"
+read -p 'Username: ' usernamevar
+passwd $usernamevar
 echo ""
+
+# add user
+echo "Adding $usernamevar as a system user"
+useradd -m -G wheel,storage,power -s /usr/bin/fish $usernamevar
+echo ""
+
+
+## Get access to the AUR
+#sudo su - $usernamevar -c "mkdir -p /home/$usernamevar/tmp/{package-query,yaourt}"
+sudo su - $usernamevar -c "mkdir -p /home/$usernamevar/.config/fish"
+sudo su - $usernamevar -c "echo '/user-install.sh' > /home/$usernamevar/.config/fish/config.fish"
+#sudo su - $usernamevar -c "git clone https://aur.archlinux.org/package-query.git"
+#sudo su - $usernamevar -c "cd /home/$usernamevar/package-query"
+#sudo su - $usernamevar -c "makepkg -si"
+#sudo su - $usernamevar -c "cd /home/$usernamevar"
+#sudo su - $usernamevar -c "git clone https://aur.archlinux.org/yaourt.git"
+#sudo su - $usernamevar -c "cd /home/$usernamevar/yaourt"
+#sudo su - $usernamevar -c "makepkg -si"
+#sudo su - $usernamevar -c "yaourt -Syua"
 
 echo "Basic installation complete"
 
