@@ -89,7 +89,7 @@ pacman -S xfce4 xfce4-goodies --needed --noconfirm
 echo ""
 
 ## i3wm
-pacman -S i3-wm i3block i3status dmenu py3status py3status-modules --needed --noconfirm
+pacman -S i3-wm i3blocks i3status dmenu --needed --noconfirm
 pacman -S compton feh rofi scrot python-requests cower yad --needed --noconfirm
  
 ## Sound system
