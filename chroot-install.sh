@@ -90,7 +90,7 @@ echo ""
 
 ## i3wm
 pacman -S i3-wm i3blocks i3status dmenu --needed --noconfirm
-pacman -S compton feh rofi scrot python-requests cower yad --needed --noconfirm
+pacman -S compton feh rofi scrot python-requests --needed --noconfirm
  
 ## Sound system
 pacman -S alsa-firmware alsa-utils alsa-plugins --needed --noconfirm
