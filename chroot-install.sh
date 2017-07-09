@@ -95,7 +95,7 @@ pacman -S compton feh rofi scrot python-requests --needed --noconfirm
 ## Sound system
 pacman -S alsa-firmware alsa-utils alsa-plugins --needed --noconfirm
 pacman -S pulseaudio-alsa pulseaudio pavucontrol pulseaudio-bluetooth --needed --noconfirm
-pacman -S pa-applet pulseaudio-ctl playerctl bluez bluez-utils --needed --noconfirm
+pacman -S playerctl bluez bluez-utils --needed --noconfirm
 
 # Software to install
 ## System
