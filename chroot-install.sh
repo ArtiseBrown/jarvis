@@ -114,9 +114,9 @@ pacman -S  geany texlive-core texmaker --needed --noconfirm
 
 ## Apperance
 ### Themes
-pacman -S arc-gtk-theme arc-icon-theme lxapperance --needed --noconfirm
+pacman -S arc-gtk-theme arc-icon-theme lxappearance --needed --noconfirm
 ### Fonts
-pacman -S ttf-dejavu ttf-font-awesome --needed --noconfirm
+pacman -S ttf-dejavu --needed --noconfirm
 
 ## AUR software
 #yaourt -S dropbox dropbox-cli --needed --noconfirm
