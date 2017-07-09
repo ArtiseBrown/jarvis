@@ -3,7 +3,7 @@
 
 ## Set the timezone and hardware clock
 echo "Setting the time zone and UTC"
-#rm /etc/localtime
+rm /etc/localtime
 ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc --utc
 #read -p "Press enter to continue"
@@ -162,10 +162,9 @@ echo ""
 ## Add a user
 echo "Add system user"
 read -p 'Username: ' usernamevar
-echo ""
 useradd -m -G wheel,storage,power -s /usr/bin/fish $usernamevar
-echo ""
 passwd $usernamevar
+echo ""
 
 ## Get access to the AUR
 #sudo su - $usernamevar -c "mkdir -p /home/$usernamevar/tmp/{package-query,yaourt}"
