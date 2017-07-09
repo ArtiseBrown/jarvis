@@ -3,7 +3,7 @@
 
 ## Set the timezone and hardware clock
 echo "Setting the time zone and UTC"
-rm /etc/localtime
+#rm /etc/localtime
 ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc --utc
 #read -p "Press enter to continue"
@@ -60,7 +60,7 @@ echo "Creating the arch.conf bootloaded entry file"
 DISKID=$(ls -l /dev/disk/by-partuuid | grep sda2 | awk '{print $9;}')
 echo "title Arch Linux" > /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
-echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
+#echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 echo "options root=PARTUUID=$DISKID rw quiet" >> /boot/loader/entries/arch.conf
 #read -p "Press enter to continue"
@@ -71,81 +71,81 @@ pacman -S fish git emacs sudo terminator xdg-user-dirs --needed --noconfirm
 
 ## Windows system
 echo "Installing x windows"
-#pacman -S xorg-server xorg-server-utils lightdm-gtk-greeter-settings accountsservice --needed --noconfirm
+pacman -S xorg-server xorg-server-utils lightdm-gtk-greeter-settings accountsservice --needed --noconfirm
 echo ""
 
 ## Video driver
-#if lspci | grep VGA | grep VirtualBox > /dev/null; then
-#    pacman -S virtualbox-guest-modules-arch virtualbox-guest-utils --needed --noconfirm
-#fi
-#if lspci | grep VGA | grep Intel > /dev/null; then
-#    pacman -S xf86-video-intel --needed --noconfirm
-#fi
+if lspci | grep VGA | grep VirtualBox > /dev/null; then
+    pacman -S virtualbox-guest-modules-arch virtualbox-guest-utils --needed --noconfirm
+fi
+if lspci | grep VGA | grep Intel > /dev/null; then
+    pacman -S xf86-video-intel --needed --noconfirm
+fi
 
 ## XFCE4
 echo "Installing XFCE4"
-#pacman -S xfce4 xfce4-goodies --needed --noconfirm
+pacman -S xfce4 xfce4-goodies --needed --noconfirm
 echo ""
 
 ## i3wm
-#pacman -S i3-wm i3block i3status dmenu py3status py3status-modules --needed --noconfirm
-#pacman -S compton feh rofi scrot python-requests cower yad --needed --noconfirm
+pacman -S i3-wm i3block i3status dmenu py3status py3status-modules --needed --noconfirm
+pacman -S compton feh rofi scrot python-requests cower yad --needed --noconfirm
  
 ## Sound system
-#pacman -S alsa-firmware alsa-utils alsa-plugins --needed --noconfirm
-#pacman -S pulseaudio-alsa pulseaudio pavucontrol pulseaudio-bluetooth --needed --noconfirm
-#pacman -S pa-applet pulseaudio-ctl playerctl bluez bluez-utils --needed --noconfirm
+pacman -S alsa-firmware alsa-utils alsa-plugins --needed --noconfirm
+pacman -S pulseaudio-alsa pulseaudio pavucontrol pulseaudio-bluetooth --needed --noconfirm
+pacman -S pa-applet pulseaudio-ctl playerctl bluez bluez-utils --needed --noconfirm
 
 # Software to install
 ## System
-#pacman -S gksu gparted elinks  python --needed --noconfirm
-#pacman -S gcvs --needed --noconfirm
-#pacman -S network-manager-applet python-ndg-httpsclient --needed --noconfirm
+pacman -S gksu gparted elinks  python --needed --noconfirm
+pacman -S gcvs --needed --noconfirm
+pacman -S network-manager-applet python-ndg-httpsclient --needed --noconfirm
 
 ## Web browswer software
-#pacman -S chromium pepper-flash chromium-widevine --needed --noconfirm
-#pacman -S thunar thunar-archive-plugin file-roller tumbler --needed --noconfirm
+pacman -S chromium pepper-flash chromium-widevine --needed --noconfirm
+pacman -S thunar thunar-archive-plugin file-roller tumbler --needed --noconfirm
 
 ## Video
-#pacman -S mplayer smplayer gstreamer --needed --noconfirm
+pacman -S mplayer smplayer gstreamer --needed --noconfirm
 
 ## General software
-#pacman -S  geany texlive-core texmaker --needed --noconfirm
+pacman -S  geany texlive-core texmaker --needed --noconfirm
 
 ## Apperance
 ### Themes
-#pacman -S arc-gtk-theme arc-icon-theme lxapperance --needed --noconfirm
+pacman -S arc-gtk-theme arc-icon-theme lxapperance --needed --noconfirm
 ### Fonts
-#pacman -S ttf-dejavu ttf-font-awesome --needed --noconfirm
+pacman -S ttf-dejavu ttf-font-awesome --needed --noconfirm
 
 ## AUR software
 #yaourt -S dropbox dropbox-cli --needed --noconfirm
 
 ## YouTube downloading
-#pacman -S youtube-dl ffmpeg wmctrl xclip xdotool --needed --noconfirm
+pacman -S youtube-dl ffmpeg wmctrl xclip xdotool --needed --noconfirm
 
 ## Network time service
-#pacman -S ntp --needed --noconfirm
+pacman -S ntp --needed --noconfirm
 
 ## Services to enable and start
 echo "Enabling services"
-#systemctl enable NetworkManager.service
-#systemctl enable ntpd.service
-#systemctl enable lightdm.service
-#systemctl enable bluetooth.service
+systemctl enable NetworkManager.service
+systemctl enable ntpd.service
+systemctl enable lightdm.service
+systemctl enable bluetooth.service
 
 ## Virtual Box
-#if lspci | grep VGA | grep Intel > /dev/null; then
-#    echo "Installing virtualbox"
-#    pacman -S virtualbox virtualbox-host-modules-arch --needed --noconfirm
-#    systemd-modules-load.service
-#    echo ""
-#fi
+if lspci | grep VGA | grep Intel > /dev/null; then
+    echo "Installing virtualbox"
+    pacman -S virtualbox virtualbox-host-modules-arch --needed --noconfirm
+    systemd-modules-load.service
+    echo ""
+fi
    
 # Umnute the sound system
 echo "Unmuting the sound system"
-#amixer sset Master unmute 
-#alsamixer # to check on the unmuted channels, if needed
+amixer sset Master unmute 
+alsamixer # to check on the unmuted channels, if needed
 echo ""
 
 # uncomment # %wheel ALL=(ALL) ALL in the /etc/sudoers file
@@ -168,8 +168,8 @@ passwd $usernamevar
 
 ## Get access to the AUR
 #sudo su - $usernamevar -c "mkdir -p /home/$usernamevar/tmp/{package-query,yaourt}"
-sudo su - $usernamevar -c "mkdir -p /home/$usernamevar/.config/fish"
-sudo su - $usernamevar -c "echo '/user-install.sh' > /home/$usernamevar/.config/fish/config.fish"
+#sudo su - $usernamevar -c "mkdir -p /home/$usernamevar/.config/fish"
+#sudo su - $usernamevar -c "echo '/user-install.sh' > /home/$usernamevar/.config/fish/config.fish"
 #sudo su - $usernamevar -c "git clone https://aur.archlinux.org/package-query.git"
 #sudo su - $usernamevar -c "cd /home/$usernamevar/package-query"
 #sudo su - $usernamevar -c "makepkg -si"
