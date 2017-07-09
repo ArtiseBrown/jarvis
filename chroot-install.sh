@@ -100,7 +100,6 @@ pacman -S playerctl bluez bluez-utils --needed --noconfirm
 # Software to install
 ## System
 pacman -S gksu gparted elinks  python --needed --noconfirm
-pacman -S gcvs --needed --noconfirm
 pacman -S network-manager-applet python-ndg-httpsclient --needed --noconfirm
 
 ## Web browswer software
