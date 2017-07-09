@@ -103,7 +103,7 @@ pacman -S gksu gparted elinks  python --needed --noconfirm
 pacman -S network-manager-applet python-ndg-httpsclient --needed --noconfirm
 
 ## Web browswer software
-pacman -S chromium pepper-flash chromium-widevine --needed --noconfirm
+pacman -S chromium pepper-flash --needed --noconfirm
 pacman -S thunar thunar-archive-plugin file-roller tumbler --needed --noconfirm
 
 ## Video
