@@ -1,5 +1,12 @@
 #! /bin/bash
 
+## Setup some symlinks
+mkdir /.config
+ln -s ~/Dropbox/arch-system-config/config-files/i3/ ~/.config
+ln -s ~/Dropbox/arch-system-config/config-files/terminator/ ~/.config
+ln -s ~/Dropbox/arch-system-config/config-files/wallpaper/ ~/.config
+
+
 ## Get access to the AUR
 mkdir -p /home/artise/tmp/{package-query,yaourt}
 cd /home/artise/tmp
