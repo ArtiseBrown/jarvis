@@ -94,12 +94,12 @@ pacman -S compton feh rofi scrot python-requests --needed --noconfirm
  
 ## Sound system
 pacman -S alsa-firmware alsa-utils alsa-plugins --needed --noconfirm
-pacman -S pulseaudio-alsa pulseaudio pavucontrol pulseaudio-bluetooth --needed --noconfirm
+pacman -S pulseaudio-alsa pulseaudio pavucontrol pamixer pulseaudio-bluetooth --needed --noconfirm
 pacman -S playerctl bluez bluez-utils --needed --noconfirm
 
 # Software to install
 ## System
-pacman -S gksu gparted elinks  python --needed --noconfirm
+pacman -S gksu gparted elinks python --needed --noconfirm
 pacman -S network-manager-applet python-ndg-httpsclient --needed --noconfirm
 
 ## Web browswer software
@@ -150,8 +150,9 @@ echo ""
 
 # uncomment # %wheel ALL=(ALL) ALL in the /etc/sudoers file
 echo "Uncommenting %wheel in sudoers file"
-sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
-echo ""
+#sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+#echo ""
+echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel
 
 ## Add password for root 
 echo "Setting the root password:"
