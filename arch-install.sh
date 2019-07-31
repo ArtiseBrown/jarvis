@@ -13,14 +13,15 @@
 # then launch the script
 
 ## Pre-installation tasks
-### Set the system clock
-timedatectl set-ntp true
-
 ### Set the keyboard map
 echo "Setting the keyboard to the UK layout"
 loadkeys uk
 #read -p "Press enter to continue"
 echo ""
+
+### Set the system clock
+timedatectl set-ntp true
+
 
 ## Determin the drive name that Arch will be install on
 ## lsblk
@@ -31,7 +32,7 @@ sgdisk -Z /dev/sda
 echo "Creating the boot partition"
 sgdisk -n 1:0:+512M -t 1:ef00 -c 1:UEFI /dev/sda
 echo "Creating the root partition"
-sgdisk -n 2:0:+20G -t 2:8300 -c 2:Arch /dev/sda
+sgdisk -n 2:0:+30G -t 2:8300 -c 2:Arch /dev/sda
 echo "Creating the home partition"
 sgdisk -n 3:0:0 -t 3:8300 -c 3:Home /dev/sda
 #read -p "Press enter to continue"
