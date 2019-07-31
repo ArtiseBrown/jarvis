@@ -3,8 +3,8 @@
 
 ## Set the timezone and hardware clock
 echo "Setting the time zone and UTC"
-rm /etc/localtime
-ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
+#rm /etc/localtime
+ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc --utc
 #read -p "Press enter to continue"
 echo ""
@@ -35,32 +35,50 @@ systemctl enable NetworkManager
 echo ""
 
 ## Setup the boot loader and conf files
-echo "Configuring the bootloaded"
+echo "Configuring the bootloader"
 bootctl --path=/boot install
 echo "default arch" > /boot/loader/loader.conf
-echo "timer 0" >> /boot/loader/loader.conf
-echo "editor 0" >> /boot/loader/loader.conf
+echo "timeout 0" >> /boot/loader/loader.conf
+echo "editor no" >> /boot/loader/loader.conf
 #read -p "Press enter to continue"
 echo ""
 
 ## Add hooks to update systemd-boot
+#mkdir /etc/pacman.d/hooks
+#echo "[Trigger]" > /etc/pacman.d/hooks/systemd-boot.hook
+#echo "Type = Package" >> /etc/pacman.d/hooks/systemd-boot.hook
+#echo "Operation = Upgrade" >> /etc/pacman.d/hooks/systemd-boot.hook
+#echo "Target = systemd" >> /etc/pacman.d/hooks/systemd-boot.hook
+#echo "" >> /etc/pacman.d/hooks/systemd-boot.hook
+#echo "[Action]" >> /etc/pacman.d/hooks/systemd-boot.hook
+#echo "Description = Upgrading systemd-boot..." >> /etc/pacman.d/hooks/systemd-boot.hook
+#echo "When = PostTransaction" >> /etc/pacman.d/hooks/systemd-boot.hook
+#echo "Exec = /usr/bin/bootctl update" >> /etc/pacman.d/hooks/systemd-boot.hook
+
+
+## Hook to reload the chip microcode
 mkdir /etc/pacman.d/hooks
-echo "[Trigger]" > /etc/pacman.d/hooks/systemd-boot.hook
-echo "Type = Package" >> /etc/pacman.d/hooks/systemd-boot.hook
-echo "Operation = Upgrade" >> /etc/pacman.d/hooks/systemd-boot.hook
-echo "Target = systemd" >> /etc/pacman.d/hooks/systemd-boot.hook
-echo "" >> /etc/pacman.d/hooks/systemd-boot.hook
-echo "[Action]" >> /etc/pacman.d/hooks/systemd-boot.hook
-echo "Description = Upgrading systemd-boot..." >> /etc/pacman.d/hooks/systemd-boot.hook
-echo "When = PostTransaction" >> /etc/pacman.d/hooks/systemd-boot.hook
-echo "Exec = /usr/bin/bootctl update" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "[Trigger]" > /etc/pacman.d/hooks/microcode_reload.hook
+echo "Operation = Install" >> /etc/pacman.d/hooks/microcode_reload.hook
+echo "Operation = Upgrade" >> /etc/pacman.d/hooks/microcode_reload.hook
+echo "Operation = Remove" >> /etc/pacman.d/hooks/microcode_reload.hook
+echo "Type = File" >> /etc/pacman.d/hooks/microcode_reload.hook
+echo "Target = usr/lib/firmware/intel-ucode/*" >> /etc/pacman.d/hooks/microcode_reload.hook
+echo "" >> /etc/pacman.d/hooks/microcode_reload.hook
+echo "[Action]"  >> /etc/pacman.d/hooks/microcode_reload.hook
+echo "Description = Applying CPU microcode updates..." >> /etc/pacman.d/hooks/microcode_reload.hook
+echo "When = PostTransaction"  >> /etc/pacman.d/hooks/microcode_reload.hook
+echo "Depends = sh"  >> /etc/pacman.d/hooks/microcode_reload.hook
+echo "Exec = /bin/sh -c 'echo 1 > /sys/devices/system/cpu/microcode/reload'" >> /etc/pacman.d/hooks/microcode_reload.hook
+pacman -S intel-ucode --needed --noconfirm
+
 
 ## determine the PARTUUID of /dev/sda1
-echo "Creating the arch.conf bootloaded entry file"
+echo "Creating the arch.conf bootloader entry file"
 DISKID=$(ls -l /dev/disk/by-partuuid | grep sda2 | awk '{print $9;}')
 echo "title Arch Linux" > /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
-#echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
+echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 echo "options root=PARTUUID=$DISKID rw quiet" >> /boot/loader/entries/arch.conf
 #read -p "Press enter to continue"
@@ -84,9 +102,9 @@ if lspci | grep VGA | grep Intel > /dev/null; then
 fi
 
 ## XFCE4
-echo "Installing XFCE4"
-pacman -S xfce4 xfce4-goodies --needed --noconfirm
-echo ""
+#echo "Installing XFCE4"
+#pacman -S xfce4 xfce4-goodies --needed --noconfirm
+#echo ""
 
 ## i3wm
 pacman -S i3-wm i3blocks i3status dmenu --needed --noconfirm
