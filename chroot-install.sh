@@ -75,10 +75,13 @@ echo "Exec = /usr/bin/bootctl update" >> /etc/pacman.d/hooks/systemd-boot.hook
 
 ## determine the PARTUUID of /dev/sda1
 echo "Determining the UUID to use in the bootloader entry file"
-#if 
-DISKID=$(ls -l /dev/disk/by-partuuid | grep sda2 | awk '{print $9;}')
-
-#DISKID=$(ls -l /dev/disk/by-partuuid | grep nvme0n1p2 | awk '{print $9;}')
+if ls -l /dev/disk/by-partuuid | grep nvme0n1p2 > /dev/null; then
+    echo "NVME drive found"
+    DISKID=$(ls -l /dev/disk/by-partuuid | grep nvme0n1p2 | awk '{print $9;}')
+elif ls -l /dev/disk/by-partuuid | grep sda2 > /dev/null; then
+    echo "Non-NVME drive found"
+    DISKID=$(ls -l /dev/disk/by-partuuid | grep sda2 | awk '{print $9;}')
+fi    
 
 
 
