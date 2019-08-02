@@ -13,6 +13,7 @@ echo ""
 echo "Setting the localisations to the UK"
 cp /etc/locale.gen /etc/locale.gen.bak
 echo "en_GB.UTF-8 UTF-8" > /etc/locale.gen
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "KEYMAP=uk" > /etc/vconsole.conf
