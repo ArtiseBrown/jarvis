@@ -58,25 +58,31 @@ echo ""
 
 
 ## Hook to reload the chip microcode
-mkdir /etc/pacman.d/hooks
-echo "[Trigger]" > /etc/pacman.d/hooks/microcode_reload.hook
-echo "Operation = Install" >> /etc/pacman.d/hooks/microcode_reload.hook
-echo "Operation = Upgrade" >> /etc/pacman.d/hooks/microcode_reload.hook
-echo "Operation = Remove" >> /etc/pacman.d/hooks/microcode_reload.hook
-echo "Type = File" >> /etc/pacman.d/hooks/microcode_reload.hook
-echo "Target = usr/lib/firmware/intel-ucode/*" >> /etc/pacman.d/hooks/microcode_reload.hook
-echo "" >> /etc/pacman.d/hooks/microcode_reload.hook
-echo "[Action]"  >> /etc/pacman.d/hooks/microcode_reload.hook
-echo "Description = Applying CPU microcode updates..." >> /etc/pacman.d/hooks/microcode_reload.hook
-echo "When = PostTransaction"  >> /etc/pacman.d/hooks/microcode_reload.hook
-echo "Depends = sh"  >> /etc/pacman.d/hooks/microcode_reload.hook
-echo "Exec = /bin/sh -c 'echo 1 > /sys/devices/system/cpu/microcode/reload'" >> /etc/pacman.d/hooks/microcode_reload.hook
-pacman -S intel-ucode --needed --noconfirm
+#mkdir /etc/pacman.d/hooks
+#echo "[Trigger]" > /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Operation = Install" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Operation = Upgrade" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Operation = Remove" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Type = File" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Target = usr/lib/firmware/intel-ucode/*" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "[Action]"  >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Description = Applying CPU microcode updates..." >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "When = PostTransaction"  >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Depends = sh"  >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Exec = /bin/sh -c 'echo 1 > /sys/devices/system/cpu/microcode/reload'" >> /etc/pacman.d/hooks/microcode_reload.hook
 
 
 ## determine the PARTUUID of /dev/sda1
-echo "Creating the arch.conf bootloader entry file"
+echo "Determining the UUID to use in the bootloader entry file"
+#if 
 DISKID=$(ls -l /dev/disk/by-partuuid | grep sda2 | awk '{print $9;}')
+
+#DISKID=$(ls -l /dev/disk/by-partuuid | grep nvme0n1p2 | awk '{print $9;}')
+
+
+
+echo "Creating the arch.conf bootloader entry file"
 echo "title Arch Linux" > /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
 echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
