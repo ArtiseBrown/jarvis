@@ -24,7 +24,7 @@ timedatectl set-ntp true
 
 ### Update the mirrorlist
 echo "Updating the mirrorlist..."
-pacman -Sy reflector
+#pacman -Sy reflector
 reflector --country 'United Kingdom' --latest 10 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist # Grab list of fastest mirrors
 echo "Mirrorlist updated."
 echo ""
