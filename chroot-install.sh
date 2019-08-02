@@ -82,7 +82,7 @@ elif ls -l /dev/disk/by-partuuid | grep sda2 > /dev/null; then
     echo "Non-NVME drive found"
     DISKID=$(ls -l /dev/disk/by-partuuid | grep sda2 | awk '{print $9;}')
 fi    
-
+read -p "Press enter to continue"
 
 
 echo "Creating the arch.conf bootloader entry file"
