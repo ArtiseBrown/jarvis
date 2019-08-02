@@ -45,16 +45,16 @@ echo "editor no" >> /boot/loader/loader.conf
 echo ""
 
 ## Add hooks to update systemd-boot
-#mkdir /etc/pacman.d/hooks
-#echo "[Trigger]" > /etc/pacman.d/hooks/systemd-boot.hook
-#echo "Type = Package" >> /etc/pacman.d/hooks/systemd-boot.hook
-#echo "Operation = Upgrade" >> /etc/pacman.d/hooks/systemd-boot.hook
-#echo "Target = systemd" >> /etc/pacman.d/hooks/systemd-boot.hook
-#echo "" >> /etc/pacman.d/hooks/systemd-boot.hook
-#echo "[Action]" >> /etc/pacman.d/hooks/systemd-boot.hook
-#echo "Description = Upgrading systemd-boot..." >> /etc/pacman.d/hooks/systemd-boot.hook
-#echo "When = PostTransaction" >> /etc/pacman.d/hooks/systemd-boot.hook
-#echo "Exec = /usr/bin/bootctl update" >> /etc/pacman.d/hooks/systemd-boot.hook
+mkdir /etc/pacman.d/hooks
+echo "[Trigger]" > /etc/pacman.d/hooks/systemd-boot.hook
+echo "Type = Package" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "Operation = Upgrade" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "Target = systemd" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "[Action]" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "Description = Upgrading systemd-boot..." >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "When = PostTransaction" >> /etc/pacman.d/hooks/systemd-boot.hook
+echo "Exec = /usr/bin/bootctl update" >> /etc/pacman.d/hooks/systemd-boot.hook
 
 
 ## Hook to reload the chip microcode
