@@ -35,35 +35,45 @@ timedatectl set-ntp true
 
 ## Partition the drive that you will use
 echo "Partitioning the disk"
-sgdisk -Z /dev/sda
+#sgdisk -Z /dev/sda
+sgdisk -Z /dev/nvme0n1
 echo "Creating the boot partition"
-sgdisk -n 1:0:+512M -t 1:ef00 -c 1:UEFI /dev/sda
+#sgdisk -n 1:0:+512M -t 1:ef00 -c 1:UEFI /dev/sda
+sgdisk -n 1:0:+512M -t 1:ef00 -c 1:UEFI /dev/nvme0n1
 echo "Creating the root partition"
-sgdisk -n 2:0:+30G -t 2:8300 -c 2:Arch /dev/sda
+#sgdisk -n 2:0:+30G -t 2:8300 -c 2:Arch /dev/sda
+sgdisk -n 2:0:+30G -t 2:8300 -c 2:Arch /dev/nvme0n1
 echo "Creating the home partition"
-sgdisk -n 3:0:0 -t 3:8300 -c 3:Home /dev/sda
+#sgdisk -n 3:0:0 -t 3:8300 -c 3:Home /dev/sda
+sgdisk -n 3:0:0 -t 3:8300 -c 3:Home /dev/nvme0n1
 #read -p "Press enter to continue"
 echo ""
 
 ## Format the partitions
 echo "Formating the boot partition"
-mkfs.fat -F32 /dev/sda1
+#mkfs.fat -F32 /dev/sda1
+mkfs.fat -F32 /dev/nvme0n1p1
 echo "Formating the root partition"
-mkfs.ext4 /dev/sda2
+#mkfs.ext4 /dev/sda2
+mkfs.ext4 /dev/nvme0n1p2
 echo "Formating the home partition"
-mkfs.ext4 /dev/sda3
+#mkfs.ext4 /dev/sda3
+mkfs.ext4 /dev/nvme0n1p3
 #read -p "Press enter to continue"
 echo ""
 
 ## Mount partitions
 echo "Mounting the root partition"
-mount /dev/sda2 /mnt
+#mount /dev/sda2 /mnt
+mount /dev/nvme0n1p2 /mnt
 echo "Creating the boot folder and mounting the boot partition"
 mkdir /mnt/boot
-mount /dev/sda1 /mnt/boot
+#mount /dev/sda1 /mnt/boot
+mount /dev/nvme0n1p1 /mnt/boot
 echo "Creating the homer folere and mounting the home partition"
 mkdir /mnt/home
-mount /dev/sda3 /mnt/home
+#mount /dev/sda3 /mnt/home
+mount /dev/nvme0n1p3 /mnt/home
 #read -p "Press enter to continue"
 echo ""
 
