@@ -16,12 +16,20 @@
 # Configuration
 KEYS="uk"
 
+## Users and passworda
+ROOT_PASSWORD=""
+USER_NAME=""
+USER_NAME_PASSWORD=""
 
 ## partition
 TARGET="" # use lsblk to see what drives are on the system that you want to install to, e.g. sda, nvme0n1
 DEVICE_TRIM="true" # If DEVICE supports TRIM
 FILE_SYSTEM_TYPE="ext4" # (single)
 #SWAP_SIZE="!2GiB !4GiB !8GiB" # (single, not supported in btrfs)
+
+
+## Host name
+HOST_NAME=""
 
 ## network_install
 WIFI_INTERFACE="wlo1"
@@ -130,7 +138,6 @@ if [ "$TARGET" == "sda" ]; then
   mount ${DEVICE}3 /mnt/home
   echo ""
 fi
-read -p "Press enter to continue"
 
 ## Install base system
 echo "Intalling the base system"
@@ -143,10 +150,206 @@ genfstab -U /mnt >> /mnt/etc/fstab
 echo ""
 
 ## Chroot into the new system abd run the chroot-install script
-echo "Copying the chroot-install.sh to the root folder"
-wget https://raw.githubusercontent.com/artisebrown/arch-install/master/chroot-install.sh
-cp ./chroot-install.sh /mnt/chroot-install.sh
-chmod +x /mnt/chroot-install.sh
-echo "Chrooting into the new system"
-arch-chroot /mnt /chroot-install.sh
-read -p "Press enter to continue"
+#echo "Copying the chroot-install.sh to the root folder"
+#wget https://raw.githubusercontent.com/artisebrown/arch-install/master/chroot-install.sh
+#cp ./chroot-install.sh /mnt/chroot-install.sh
+#chmod +x /mnt/chroot-install.sh
+#echo "Chrooting into the new system"
+#arch-chroot /mnt /chroot-install.sh
+#read -p "Press enter to continue"
+
+## Set the timezone and hardware clock
+arch-chroot /mnt echo "Setting the time zone and UTC"
+#rm /etc/localtime
+arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
+arch-chroot /mnt hwclock --systohc --utc
+#read -p "Press enter to continue"
+echo ""
+
+## Set the localizations
+echo "Setting the localisations to the UK"
+arch-chroot /mnt cp /etc/locale.gen /etc/locale.gen.bak
+arch-chroot /mnt echo "en_GB.UTF-8 UTF-8" > /etc/locale.gen
+arch-chroot /mnt echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+arch-chroot /mnt locale-gen
+arch-chroot /mnt echo "LANG=en_GB.UTF-8" > /etc/locale.conf
+arch-chroot /mnt echo "KEYMAP=uk" > /etc/vconsole.conf
+arch-chroot /mnt rm /etc/locale.gen
+arch-chroot /mnt mv /etc/locale.gen.bak /etc/locale.gen
+#read -p "Press enter to continue"
+echo ""
+
+## Set the computer's hostname and network access
+echo "Setting the host name details"
+#read -p "Set a hostname: " hostnamevar
+arch-chroot /mnt echo $HOST_NAME > /etc/hostname
+arch-chroot /mnt echo "127.0.0.1	localhost.localdomain	localhost" > /etc/hosts
+arch-chroot /mnt echo "1::1		localhost.localdomain	localhost" >> /etc/hosts
+arch-chroot /mnt echo "127.0.1.1	$hostnamevar.localdomain	$hostnamevar" >> /etc/hosts
+#systemctl enable dhcpcd.service
+arch-chroot /mnt pacman -S networkmanager --needed --noconfirm
+arch-chroot /mnt systemctl enable NetworkManager
+#read -p "Press enter to continue"
+echo ""
+
+## Setup the boot loader and conf files
+echo "Configuring the bootloader"
+arch-chroot /mnt bootctl --path=/boot install
+arch-chroot /mnt echo "default arch" > /boot/loader/loader.conf
+arch-chroot /mnt echo "timeout 0" >> /boot/loader/loader.conf
+arch-chroot /mnt echo "editor no" >> /boot/loader/loader.conf
+#read -p "Press enter to continue"
+echo ""
+
+## Add hooks to update systemd-boot
+arch-chroot /mnt mkdir /etc/pacman.d/hooks
+arch-chroot /mnt echo "[Trigger]" > /etc/pacman.d/hooks/systemd-boot.hook
+arch-chroot /mnt echo "Type = Package" >> /etc/pacman.d/hooks/systemd-boot.hook
+arch-chroot /mnt echo "Operation = Upgrade" >> /etc/pacman.d/hooks/systemd-boot.hook
+arch-chroot /mnt echo "Target = systemd" >> /etc/pacman.d/hooks/systemd-boot.hook
+arch-chroot /mnt echo "" >> /etc/pacman.d/hooks/systemd-boot.hook
+arch-chroot /mnt echo "[Action]" >> /etc/pacman.d/hooks/systemd-boot.hook
+arch-chroot /mnt echo "Description = Upgrading systemd-boot..." >> /etc/pacman.d/hooks/systemd-boot.hook
+arch-chroot /mnt echo "When = PostTransaction" >> /etc/pacman.d/hooks/systemd-boot.hook
+arch-chroot /mnt echo "Exec = /usr/bin/bootctl update" >> /etc/pacman.d/hooks/systemd-boot.hook
+
+
+## Hook to reload the chip microcode
+#mkdir /etc/pacman.d/hooks
+#echo "[Trigger]" > /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Operation = Install" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Operation = Upgrade" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Operation = Remove" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Type = File" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Target = usr/lib/firmware/intel-ucode/*" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "" >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "[Action]"  >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Description = Applying CPU microcode updates..." >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "When = PostTransaction"  >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Depends = sh"  >> /etc/pacman.d/hooks/microcode_reload.hook
+#echo "Exec = /bin/sh -c 'echo 1 > /sys/devices/system/cpu/microcode/reload'" >> /etc/pacman.d/hooks/microcode_reload.hook
+
+
+## determine the PARTUUID of /dev/sda1
+#echo "Determining the UUID to use in the bootloader entry file"
+#if ls -l /dev/disk/by-partuuid | grep nvme0n1p2 > /dev/null; then
+#    echo "NVME drive found"
+#    DISKID=$(ls -l /dev/disk/by-partuuid | grep nvme0n1p2 | awk '{print $9;}')
+#elif ls -l /dev/disk/by-partuuid | grep sda2 > /dev/null; then
+#    echo "Non-NVME drive found"
+#    DISKID=$(ls -l /dev/disk/by-partuuid | grep sda2 | awk '{print $9;}')
+#fi    
+#read -p "Press enter to continue"
+
+arch-chroot /mnt DISKID=$(ls -l /dev/disk/by-partuuid | grep nvme0n1p2 | awk '{print $9;}')
+
+
+arch-chroot /mnt echo "Creating the arch.conf bootloader entry file"
+arch-chroot /mnt echo "title Arch Linux" > /boot/loader/entries/arch.conf
+arch-chroot /mnt echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
+arch-chroot /mnt echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
+arch-chroot /mnt echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
+arch-chroot /mnt echo "options root=PARTUUID=$DISKID rw quiet" >> /boot/loader/entries/arch.conf
+#read -p "Press enter to continue"
+echo ""
+
+# System software
+arch-chroot /mnt pacman -S fish git emacs sudo terminator xdg-user-dirs --needed --noconfirm
+
+## Windows system
+echo "Installing x windows"
+arch-chroot /mnt pacman -S xorg-server accountsservice --needed --noconfirm
+arch-chroot /mnt pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --needed --noconfirm
+echo ""
+
+## Video driver
+if lspci | grep VGA | grep VirtualBox > /dev/null; then
+    arch-chroot /mnt pacman -S virtualbox-guest-modules-arch virtualbox-guest-utils --needed --noconfirm
+fi
+if lspci | grep VGA | grep Intel > /dev/null; then
+    arch-chroot /mnt pacman -S xf86-video-intel --needed --noconfirm
+fi
+
+## XFCE4
+#echo "Installing XFCE4"
+#pacman -S xfce4 xfce4-goodies --needed --noconfirm
+#echo ""
+
+## i3wm
+arch-chroot /mnt pacman -S i3-wm i3blocks i3status dmenu --needed --noconfirm
+arch-chroot /mnt pacman -S compton feh rofi scrot python-requests --needed --noconfirm
+ 
+## Sound system
+arch-chroot /mnt pacman -S alsa-firmware alsa-utils alsa-plugins --needed --noconfirm
+arch-chroot /mnt pacman -S pulseaudio-alsa pulseaudio pavucontrol pamixer pulseaudio-bluetooth --needed --noconfirm
+arch-chroot /mnt pacman -S playerctl bluez bluez-utils --needed --noconfirm
+
+# Software to install
+## System
+arch-chroot /mnt pacman -S gksu gparted elinks python --needed --noconfirm
+arch-chroot /mnt pacman -S network-manager-applet python-ndg-httpsclient --needed --noconfirm
+
+## Web browswer software
+arch-chroot /mnt pacman -S chromium pepper-flash --needed --noconfirm
+arch-chroot /mnt pacman -S thunar thunar-archive-plugin file-roller tumbler --needed --noconfirm
+
+## Video
+arch-chroot /mnt pacman -S mplayer smplayer gstreamer --needed --noconfirm
+
+## General software
+arch-chroot /mnt pacman -S  geany texlive-core texmaker --needed --noconfirm
+
+## Apperance
+### Themes
+arch-chroot /mnt pacman -S arc-gtk-theme arc-icon-theme lxappearance --needed --noconfirm
+### Fonts
+arch-chroot /mnt pacman -S ttf-dejavu --needed --noconfirm
+
+## AUR software
+#yaourt -S dropbox dropbox-cli --needed --noconfirm
+
+## YouTube downloading
+arch-chroot /mnt pacman -S youtube-dl ffmpeg wmctrl xclip xdotool --needed --noconfirm
+
+## Network time service
+arch-chroot /mnt pacman -S ntp --needed --noconfirm
+
+## Services to enable and start
+echo "Enabling services"
+arch-chroot /mnt systemctl enable NetworkManager.service
+arch-chroot /mnt systemctl enable ntpd.service
+arch-chroot /mnt systemctl enable lightdm.service
+arch-chroot /mnt systemctl enable bluetooth.service
+
+## Virtual Box
+if lspci | grep VGA | grep Intel > /dev/null; then
+    echo "Installing virtualbox"
+    arch-chroot /mnt pacman -S virtualbox virtualbox-host-modules-arch --needed --noconfirm
+    arch-chroot /mnt systemd-modules-load.service
+    echo ""
+fi
+   
+# Umnute the sound system
+echo "Unmuting the sound system"
+arch-chroot /mnt amixer sset Master unmute 
+#alsamixer # to check on the unmuted channels, if needed
+echo ""
+
+# uncomment # %wheel ALL=(ALL) ALL in the /etc/sudoers file
+echo "Uncommenting %wheel in sudoers file"
+#sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+#echo ""
+arch-chroot /mnt echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel
+
+## Add password for root 
+echo "Setting the root password:"
+arch-chroot /mnt passwd $ROOT_PASSWORD
+echo ""
+
+## Add a user
+echo "Add system user"
+arch-chroot /mnt useradd -m -G wheel,storage,power -s /usr/bin/fish $USER_NAME
+arch-chroot /mnt passwd $USER_NAME_PASSWORD
+echo ""
+
+reboot
