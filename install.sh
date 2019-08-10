@@ -54,7 +54,7 @@ timedatectl set-ntp true
 
 ## Partition, format and mount the drives and partitions
 echo "Partitioning the drives"
-DEVICE='/dev/'+$TARGET
+DEVICE='/dev/'$TARGET
 sgdisk -Z $DEVICE
 echo "Creating the boot partition"
 sgdisk -n 1:0:+512M -t 1:ef00 -c 1:UEFI $DEVICE
