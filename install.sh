@@ -64,7 +64,7 @@ echo "Creating the home partition"
 sgdisk -n 3:0:0 -t 3:8300 -c 3:Home $DEVICE
 echo ""
 
-if $DEVICE == nvme0n1; then
+if $DEVICE == "nvme0n1"; then
   # Partition the drives
   echo "Partitioning the drives"
   sgdisk -Z $DEVICE
@@ -97,7 +97,7 @@ if $DEVICE == nvme0n1; then
   echo ""
 fi
 
-if $DEVICE == sda; then
+if $DEVICE == "sda"; then
   # Partition the drives
   echo "Partitioning the drives"
   sgdisk -Z $DEVICE
