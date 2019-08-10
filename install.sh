@@ -144,6 +144,7 @@ echo ""
 
 ## Chroot into the new system abd run the chroot-install script
 echo "Copying the chroot-install.sh to the root folder"
+wget https://raw.githubusercontent.com/artisebrown/arch-install/master/chroot-install.sh
 cp ./chroot-install.sh /mnt/chroot-install.sh
 chmod +x /mnt/chroot-install.sh
 echo "Chrooting into the new system"
