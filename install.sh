@@ -23,7 +23,7 @@ DEVICE_TRIM="true" # If DEVICE supports TRIM
 FILE_SYSTEM_TYPE="ext4" # (single)
 #SWAP_SIZE="!2GiB !4GiB !8GiB" # (single, not supported in btrfs)
 
-## etwork_install
+## network_install
 WIFI_INTERFACE="wlo1"
 WIFI_ESSID=""
 WIFI_KEY=""
@@ -132,6 +132,7 @@ if $DEVICE == sda; then
   mount $DEVICE+3 /mnt/home
   echo ""
 fi
+read -p "Press enter to continue"
 
 ## Install base system
 echo "Intalling the base system"
