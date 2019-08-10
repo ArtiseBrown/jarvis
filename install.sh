@@ -78,22 +78,22 @@ if $TARGET == nvme0n1; then
 
   # Format the partitions
   echo "Formating the boot partition"
-  mkfs.fat -F32 $DEVICEp1
+  mkfs.fat -F32 $DEVICEp0
   echo "Formating the root partition"
-  mkfs.ext4 $DEVICEp2
+  mkfs.ext4 $DEVICEp1
   echo "Formating the home partition"
-  mkfs.ext4 $DEVICEp3
+  mkfs.ext4 $DEVICEp2
   echo ""
 
   # Mount the partitions
   echo "Mounting the root partition"
-  mount $DEVICEp2 /mnt
+  mount $DEVICEp1 /mnt
   echo "Creating the boot folder and mounting the boot partition"
   mkdir /mnt/boot
-  mount $DEVICEp1 /mnt/boot
+  mount $DEVICEp0 /mnt/boot
   echo "Creating the homer folere and mounting the home partition"
   mkdir /mnt/home
-  mount $DEVICEp3 /mnt/home
+  mount $DEVICEp2 /mnt/home
   echo ""
 fi
 
