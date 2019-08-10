@@ -79,22 +79,22 @@ if [ "$DEVICE" == "nvme0n1" ]; then
 
   # Format the partitions
   echo "Formating the boot partition"
-  mkfs.fat -F32 ${DEVICE}"p1"
+  mkfs.fat -F32 ${DEVICE}p1
   echo "Formating the root partition"
-  mkfs.ext4 ${DEVICE}"p2"
+  mkfs.ext4 ${DEVICE}p2
   echo "Formating the home partition"
-  mkfs.ext4 ${DEVICE}"p3"
+  mkfs.ext4 ${DEVICE}p3
   echo ""
 
   # Mount the partitions
   echo "Mounting the root partition"
-  mount ${DEVICE}"p2" /mnt
+  mount ${DEVICE}p2 /mnt
   echo "Creating the boot folder and mounting the boot partition"
   mkdir /mnt/boot
-  mount ${DEVICE}"p1" /mnt/boot
+  mount ${DEVICE}p1 /mnt/boot
   echo "Creating the homer folere and mounting the home partition"
   mkdir /mnt/home
-  mount ${DEVICE}"p3" /mnt/home
+  mount ${DEVICE}p3 /mnt/home
   echo ""
 fi
 
@@ -112,22 +112,22 @@ if [ "$DEVICE" == "sda" ]; then
 
   # Format the partitions
   echo "Formating the boot partition"
-  mkfs.fat -F32 ${DEVICE}"1"
+  mkfs.fat -F32 ${DEVICE}1
   echo "Formating the root partition"
-  mkfs.ext4 ${DEVICE}"2"
+  mkfs.ext4 ${DEVICE}2
   echo "Formating the home partition"
-  mkfs.ext4 ${DEVICE}"3"
+  mkfs.ext4 ${DEVICE}3
   echo ""
 
   # Mount the partitions
   echo "Mounting the root partition"
-  mount ${DEVICE}"2" /mnt
+  mount ${DEVICE}2 /mnt
   echo "Creating the boot folder and mounting the boot partition"
   mkdir /mnt/boot
-  mount ${DEVICE}"1" /mnt/boot
+  mount ${DEVICE}1 /mnt/boot
   echo "Creating the homer folere and mounting the home partition"
   mkdir /mnt/home
-  mount ${DEVICE}"3" /mnt/home
+  mount ${DEVICE}3 /mnt/home
   echo ""
 fi
 read -p "Press enter to continue"
