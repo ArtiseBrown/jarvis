@@ -79,7 +79,7 @@ echo ""
 
 if [ "$TARGET" == "nvme0n1" ]; then
   # Partition the drives
-  echo "Partitioning the drives"
+  echo "Partitioning $TARGET"
   sgdisk -Z $DEVICE
   echo "Creating the boot partition"
   sgdisk -n 1:0:+512M -t 1:ef00 -c 1:UEFI $DEVICE
@@ -112,7 +112,7 @@ fi
 
 if [ "$TARGET" == "sda" ]; then
   # Partition the drives
-  echo "Partitioning the drives"
+  echo "Partitioning $TARGET"
   sgdisk -Z $DEVICE
   echo "Creating the boot partition"
   sgdisk -n 1:0:+512M -t 1:ef00 -c 1:UEFI $DEVICE
