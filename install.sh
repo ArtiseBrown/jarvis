@@ -155,7 +155,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 echo ""
 
 ## Chroot into the new system abd run the chroot-install script
-echo "Copying the chroot-install.sh to the root folder"
+#echo "Copying the chroot-install.sh to the root folder"
 #wget https://raw.githubusercontent.com/artisebrown/arch-install/master/chroot-install.sh
 #cp ./chroot-install.sh /mnt/chroot-install.sh
 #chmod +x /mnt/chroot-install.sh
@@ -349,13 +349,13 @@ echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel
 
 ## Add password for root 
 echo "Setting the root password:"
-arch-chroot /mnt passwd $ROOT_PASSWORD
+passwd $ROOT_PASSWORD
 echo ""
 
 ## Add a user
 echo "Add system user"
-arch-chroot /mnt useradd -m -G wheel,storage,power -s /usr/bin/fish $USER_NAME
-arch-chroot /mnt passwd $USER_NAME_PASSWORD
+useradd -m -G wheel,storage,power -s /usr/bin/fish $USER_NAME
+passwd $USER_NAME_PASSWORD
 echo ""
 
 
