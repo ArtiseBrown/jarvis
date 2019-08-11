@@ -358,5 +358,8 @@ arch-chroot /mnt useradd -m -G wheel,storage,power -s /usr/bin/fish $USER_NAME
 arch-chroot /mnt passwd $USER_NAME_PASSWORD
 echo ""
 
+
+# Exit the chroot environment
+exit
 read -p "Installation complete; remove installation media and press enter to reboot."
 reboot
