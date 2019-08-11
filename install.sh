@@ -21,17 +21,21 @@ ROOT_PASSWORD=""
 USER_NAME=""
 USER_NAME_PASSWORD=""
 
-## partition
+## Partition target
 TARGET="" # use lsblk to see what drives are on the system that you want to install to, e.g. sda, nvme0n1
 DEVICE_TRIM="true" # If DEVICE supports TRIM
 FILE_SYSTEM_TYPE="ext4" # (single)
 #SWAP_SIZE="!2GiB !4GiB !8GiB" # (single, not supported in btrfs)
 
+## System details
+TOUCH_PAD="" # either yes or no
+LAPTOP="" # either yes or no, so config for battery status can be added
+
 
 ## Host name
 HOST_NAME=""
 
-## network_install
+## Wifi details
 WIFI_INTERFACE="wlo1"
 WIFI_ESSID=""
 WIFI_KEY=""
@@ -43,7 +47,6 @@ PING_HOSTNAME="www.mirrorservice.org"
 ### Set the keyboard map
 echo "Setting the keyboard to the UK layout"
 loadkeys uk
-#read -p "Press enter to continue"
 echo ""
 
 ### Set the system clock
@@ -352,4 +355,5 @@ useradd -m -G wheel,storage,power -s /usr/bin/fish $USER_NAME
 passwd $USER_NAME_PASSWORD
 echo ""
 
+read -p "Installation complete; remove installation media and press enter to reboot."
 reboot
