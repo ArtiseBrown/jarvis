@@ -16,7 +16,7 @@
 # Configuration
 KEYS="uk"
 
-## Users and passworda
+## Users and passwords
 ROOT_PASSWORD=""
 USER_NAME=""
 USER_NAME_PASSWORD=""
