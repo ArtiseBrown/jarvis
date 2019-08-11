@@ -160,6 +160,7 @@ echo ""
 #echo "Chrooting into the new system"
 #arch-chroot /mnt /chroot-install.sh
 #read -p "Press enter to continue"
+arch-chroot /mnt
 
 ## Set the timezone and hardware clock
 echo "Setting the time zone and UTC"
