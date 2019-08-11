@@ -47,6 +47,7 @@ PING_HOSTNAME="www.mirrorservice.org"
 ### Set the keyboard map
 echo "Setting the keyboard to the UK layout"
 loadkeys uk
+#read -p "Press enter to continue"
 echo ""
 
 ### Set the system clock
@@ -141,6 +142,7 @@ if [ "$TARGET" == "sda" ]; then
   mount ${DEVICE}3 /mnt/home
   echo ""
 fi
+read -p "Press enter to continue"
 
 ## Install base system
 echo "Intalling the base system"
@@ -153,7 +155,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 echo ""
 
 ## Chroot into the new system abd run the chroot-install script
-#echo "Copying the chroot-install.sh to the root folder"
+echo "Copying the chroot-install.sh to the root folder"
 #wget https://raw.githubusercontent.com/artisebrown/arch-install/master/chroot-install.sh
 #cp ./chroot-install.sh /mnt/chroot-install.sh
 #chmod +x /mnt/chroot-install.sh
@@ -189,7 +191,7 @@ echo "Setting the host name details"
 echo $HOST_NAME > /etc/hostname
 echo "127.0.0.1	localhost.localdomain	localhost" > /etc/hosts
 echo "1::1		localhost.localdomain	localhost" >> /etc/hosts
-echo "127.0.1.1	$hostnamevar.localdomain	$hostnamevar" >> /etc/hosts
+echo "127.0.1.1	$HOST_NAME.localdomain	$HOST_NAME" >> /etc/hosts
 #systemctl enable dhcpcd.service
 pacman -S networkmanager --needed --noconfirm
 systemctl enable NetworkManager
@@ -347,13 +349,13 @@ echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel
 
 ## Add password for root 
 echo "Setting the root password:"
-passwd $ROOT_PASSWORD
+arch-chroot /mnt passwd $ROOT_PASSWORD
 echo ""
 
 ## Add a user
 echo "Add system user"
-useradd -m -G wheel,storage,power -s /usr/bin/fish $USER_NAME
-passwd $USER_NAME_PASSWORD
+arch-chroot /mnt useradd -m -G wheel,storage,power -s /usr/bin/fish $USER_NAME
+arch-chroot /mnt passwd $USER_NAME_PASSWORD
 echo ""
 
 read -p "Installation complete; remove installation media and press enter to reboot."
