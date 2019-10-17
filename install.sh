@@ -180,8 +180,6 @@ echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "KEYMAP=uk" > /etc/vconsole.conf
-rm /etc/locale.gen
-mv /etc/locale.gen.bak /etc/locale.gen
 #read -p "Press enter to continue"
 echo ""
 
