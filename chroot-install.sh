@@ -84,7 +84,9 @@ echo "Exec = /usr/bin/bootctl update" >> /etc/pacman.d/hooks/systemd-boot.hook
 #fi    
 #read -p "Press enter to continue"
 
-DISKID=$(ls -l /dev/disk/by-partuuid | grep nvme0n1p2 | awk '{print $9;}')
+
+DISKID=$(ls -l /dev/disk/by-partuuid | grep sda1 | awk '{print $9;}')
+#DISKID=$(ls -l /dev/disk/by-partuuid | grep nvme0n1p2 | awk '{print $9;}')
 
 
 echo "Creating the arch.conf bootloader entry file"
@@ -100,9 +102,9 @@ echo ""
 pacman -S fish git emacs sudo terminator xdg-user-dirs --needed --noconfirm
 
 ## Windows system
-echo "Installing x windows"
-pacman -S xorg-server accountsservice --needed --noconfirm
-pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --needed --noconfirm
+#echo "Installing x windows"
+#pacman -S xorg-server accountsservice --needed --noconfirm
+#pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --needed --noconfirm
 echo ""
 
 ## Video driver
@@ -119,32 +121,32 @@ fi
 #echo ""
 
 ## i3wm
-pacman -S i3-wm i3blocks i3status dmenu --needed --noconfirm
-pacman -S compton feh rofi scrot python-requests --needed --noconfirm
+#pacman -S i3-wm i3blocks i3status dmenu --needed --noconfirm
+#pacman -S compton feh rofi scrot python-requests --needed --noconfirm
  
 ## Sound system
-pacman -S alsa-firmware alsa-utils alsa-plugins --needed --noconfirm
-pacman -S pulseaudio-alsa pulseaudio pavucontrol pamixer pulseaudio-bluetooth --needed --noconfirm
-pacman -S playerctl bluez bluez-utils --needed --noconfirm
+#pacman -S alsa-firmware alsa-utils alsa-plugins --needed --noconfirm
+#pacman -S pulseaudio-alsa pulseaudio pavucontrol pamixer pulseaudio-bluetooth --needed --noconfirm
+#pacman -S playerctl bluez bluez-utils --needed --noconfirm
 
 # Software to install
 ## System
-pacman -S gksu gparted elinks python --needed --noconfirm
-pacman -S network-manager-applet python-ndg-httpsclient --needed --noconfirm
+#pacman -S gksu gparted elinks python --needed --noconfirm
+#pacman -S network-manager-applet python-ndg-httpsclient --needed --noconfirm
 
 ## Web browswer software
-pacman -S chromium pepper-flash --needed --noconfirm
-pacman -S thunar thunar-archive-plugin file-roller tumbler --needed --noconfirm
+#pacman -S chromium pepper-flash --needed --noconfirm
+#pacman -S thunar thunar-archive-plugin file-roller tumbler --needed --noconfirm
 
 ## Video
-pacman -S mplayer smplayer gstreamer --needed --noconfirm
+#pacman -S mplayer smplayer gstreamer --needed --noconfirm
 
 ## General software
-pacman -S  geany texlive-core texmaker --needed --noconfirm
+#pacman -S  geany texlive-core texmaker --needed --noconfirm
 
 ## Apperance
 ### Themes
-pacman -S arc-gtk-theme arc-icon-theme lxappearance --needed --noconfirm
+#pacman -S arc-gtk-theme arc-icon-theme lxappearance --needed --noconfirm
 ### Fonts
 pacman -S ttf-dejavu --needed --noconfirm
 
@@ -152,7 +154,7 @@ pacman -S ttf-dejavu --needed --noconfirm
 #yaourt -S dropbox dropbox-cli --needed --noconfirm
 
 ## YouTube downloading
-pacman -S youtube-dl ffmpeg wmctrl xclip xdotool --needed --noconfirm
+#pacman -S youtube-dl ffmpeg wmctrl xclip xdotool --needed --noconfirm
 
 ## Network time service
 pacman -S ntp --needed --noconfirm
@@ -161,22 +163,22 @@ pacman -S ntp --needed --noconfirm
 echo "Enabling services"
 systemctl enable NetworkManager.service
 systemctl enable ntpd.service
-systemctl enable lightdm.service
-systemctl enable bluetooth.service
+#systemctl enable lightdm.service
+#systemctl enable bluetooth.service
 
 ## Virtual Box
-if lspci | grep VGA | grep Intel > /dev/null; then
-    echo "Installing virtualbox"
-    pacman -S virtualbox virtualbox-host-modules-arch --needed --noconfirm
-    systemd-modules-load.service
-    echo ""
-fi
+#if lspci | grep VGA | grep Intel > /dev/null; then
+#    echo "Installing virtualbox"
+#    pacman -S virtualbox virtualbox-host-modules-arch --needed --noconfirm
+#    systemd-modules-load.service
+#    echo ""
+#fi
    
 # Umnute the sound system
-echo "Unmuting the sound system"
-amixer sset Master unmute 
-alsamixer # to check on the unmuted channels, if needed
-echo ""
+#echo "Unmuting the sound system"
+#amixer sset Master unmute 
+#alsamixer # to check on the unmuted channels, if needed
+#echo ""
 
 # uncomment # %wheel ALL=(ALL) ALL in the /etc/sudoers file
 echo "Uncommenting %wheel in sudoers file"
